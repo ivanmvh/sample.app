@@ -1,7 +1,23 @@
 # A sample Guardfile
 # More info at https://github.com/guard/guard#readme
 
-guard 'rspec', :version => 2, :all_after_pass => false do
+# @im añadido al correr $ bundle exec guard init spork
+guard 'spork', :rspec_env => { 'RAILS_ENV' => 'test' } do
+  watch('config/application.rb')
+  watch('config/environment.rb')
+  watch(%r{ˆconfig/environments/.+\.rb$})
+  watch(%r{ˆconfig/initializers/.+\.rb$})
+  watch('Gemfile')
+  watch('Gemfile.lock')
+  watch('spec/spec_helper.rb')
+  watch('test/test_helper.rb')
+  watch('spec/support/')
+end
+# @im  hasta aqui
+
+
+# guard 'rspec', :version => 2, :all_after_pass => false, :cli => '--drb' do
+guard 'rspec', version: 2, all_after_pass: false, cli: '--drb' do
   watch(%r{^spec/.+_spec\.rb$})
   watch(%r{^lib/(.+)\.rb$})     { |m| "spec/lib/#{m[1]}_spec.rb" }
   watch('spec/spec_helper.rb')  { "spec" }
